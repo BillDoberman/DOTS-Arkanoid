@@ -105,9 +105,12 @@ public class GamePanelUI : MonoBehaviour
         if (gameOver)
             _gameOverPlayers.Add(playerIndex);
         else
+        {
             _gameOverPlayers.Remove(playerIndex);
+            _playerPanelUis[playerIndex].GameOverText.gameObject.SetActive(false);
+        }
     }
-    
+
     public void SetGameAreaMessage(string message, float? time = null)
     {
         _messageText.text = message;
