@@ -6,9 +6,22 @@ public class TitleUI : MonoBehaviour
 {
     [SerializeField] GameObject _onePlayerButton;
     [SerializeField] GameObject _twoPlayerButton;
-    
+    [SerializeField] GameObject _playGameMenu;
+    [SerializeField] GameObject _attractMenu;
+    [SerializeField] GameObject _freePlayButton;
+
+
     private void OnEnable()
     {
+        _attractMenu.SetActive(true);
+        _playGameMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(_freePlayButton);
+    }
+
+    public void OpenTitleUI()
+    {
+        _attractMenu.SetActive(false);
+        _playGameMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(_onePlayerButton);
     }
 
