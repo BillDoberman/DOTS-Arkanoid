@@ -56,6 +56,17 @@ partial struct GameSystem : ISystem, ISystemStartStop
         AudioSystem.StopAudio(entityManager);
     }
 
+    public static void ContinueGame(EntityManager entityManager)
+    {
+        GameUtils.TryGetSingleton<GameSettings>(entityManager, out var gameSettings);
+        GameUtils.TryGetSingletonRW<GameData>(entityManager, out var gameData);
+
+        var playersDataQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<PlayerData>().Build(entityManager);
+        
+
+        entityManager.AddSingleFrameComponent(ChangeStateCommand.Create<GameStartState>());
+    }
+
     public static void SetPause(EntityManager entityManager, bool pause)
     {
         UnityEngine.Time.timeScale = pause ? 0 : 1;

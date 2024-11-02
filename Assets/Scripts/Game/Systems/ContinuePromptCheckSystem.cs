@@ -2,7 +2,7 @@
 using Unity.Entities;
 
 [UpdateInGroup(typeof(GameStateSystemGroup))]
-public partial struct GameOverCheckSystem : ISystem
+public partial struct ContinuePromptCheckSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -20,6 +20,6 @@ public partial struct GameOverCheckSystem : ISystem
             anyAlive |= playerData.ValueRO.Lives != 0;
 
         if (!anyAlive)
-            state.EntityManager.AddSingleFrameComponent(ChangeStateCommand.Create<GameOverState>());
+            state.EntityManager.AddSingleFrameComponent(ChangeStateCommand.Create<ContinuePromptState>());
     }
 }

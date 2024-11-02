@@ -30,6 +30,7 @@ public partial struct GamePanelUIPresentationSystem : ISystem
                 inGameUI.SetLevel(gameData.Level);
                 inGameUI.SetHighScore(gameData.HighScore);
                 inGameUI.SetGameAreaMessage($"ROUND {gameData.Level:D2}\n\nREADY!", 3.0f);
+                inGameUI.SetContinueMenu(false);
             }
             else if (command.TargetState == typeof(GameWinState))
             {
@@ -38,6 +39,11 @@ public partial struct GamePanelUIPresentationSystem : ISystem
             else if (command.TargetState == typeof(GameOverState))
             {
                 inGameUI.SetGameAreaMessage("GAME OVER");
+            }
+            else if (command.TargetState == typeof(ContinuePromptState))
+            {
+                inGameUI.SetGameAreaMessage("SCAN TO PAY");
+                inGameUI.SetContinueMenu(true);
             }
         }
         

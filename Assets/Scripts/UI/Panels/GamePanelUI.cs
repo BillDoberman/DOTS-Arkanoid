@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [Serializable]
@@ -21,6 +22,8 @@ public class GamePanelUI : MonoBehaviour
     [SerializeField] private PlayerPanelUI[] _playerPanelUis;
     [SerializeField] private Text _roundLabelText;
     [SerializeField] private Text _creditsLabelText;
+    [SerializeField] private GameObject _continueMenu;
+    [SerializeField] private GameObject _continueButton;
     
     private float? _messageTime;
     private readonly HashSet<int> _gameOverPlayers = new HashSet<int>();
@@ -43,7 +46,26 @@ public class GamePanelUI : MonoBehaviour
         }
         
     }
-    
+
+    public void SetContinueMenu(bool open)
+    {
+        _continueMenu.SetActive(open);
+        if (open)
+            EventSystem.current.SetSelectedGameObject(_continueButton);
+    }
+
+    public void OnContinueButtonClick()
+    {
+        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        GameUtils.TryGetSingleton<LevelsSettings>(entityManager, out var levelsSettings);
+        for (int i = 0; i < levelsSettings.MaxPlayers; i++)
+        {
+            SetGameOverMessage(i, false);
+        }
+
+        GameSystem.ContinueGame(entityManager);
+    }
+
     public void OnExitButtonClick()
     {
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
